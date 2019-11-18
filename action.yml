@@ -1,6 +1,9 @@
 name: Code Climate Test Reporter
 description: Send test coverage results to code climate
 author: alexkappa
+branding:
+  icon: code
+  color: green
 inputs:
   codeclimate-test-reporter-id:
     description: The test reporter ID. This is a write-only ID that can only post test reports
