@@ -1,26 +1,26 @@
-name: 'Code Climate Test Reporter'
-description: 'Send test coverage results to code climate'
-author: 'alexkappa'
+name: Code Climate Test Reporter
+description: Send test coverage results to code climate
+author: alexkappa
 inputs:
   codeclimate-test-reporter-id:
-    description: 'The test reporter ID. This is a write-only ID that can only post test reports'
+    description: The test reporter ID. This is a write-only ID that can only post test reports
   codeclimate-test-reporter-version:
-    description: 'The test reporter version. By default "latest" is used'
-    default: 'latest'
+    description: The test reporter version. By default "latest" is used
+    default: latest
   codeclimate-test-reporter-os:
-    description: 'The test reporter OS'
-    default: 'linux'
+    description: The test reporter OS
+    default: linux
   codeclimate-test-reporter-arch:
-    description: 'The test reporter architecture'
-    default: 'amd64'
+    description: The test reporter architecture
+    default: amd64
   codeclimate-test-reporter-url:
-    description: 'The test reporter download URL. If supplied, it will override the version, os and architecture input'
+    description: The test reporter download URL. If supplied, it will override the version, os and architecture input
   command:
-    description: 'The command to execute using the codeclimate test reporter'
-    default: 'after-build'
+    description: The command to execute using the codeclimate test reporter
+    default: after-build
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: docker
+  image: Dockerfile
   env:
     CC_TEST_REPORTER_ID: ${{ inputs.codeclimate-test-reporter-id }}
     CC_TEST_REPORTER_VERSION: ${{ inputs.codeclimate-test-reporter-version }}
