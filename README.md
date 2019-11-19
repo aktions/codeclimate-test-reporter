@@ -6,7 +6,7 @@ Basic usage is as follows:
 
 ```yaml
 - name: Code Climate Test Reporter
-  uses: alexkappa/codeclimate-test-reporter@v0.0.1
+  uses: aktions/codeclimate-test-reporter@v0
   with:
     codeclimate-test-reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}
     command: after-build
@@ -26,7 +26,7 @@ You can also supply additional command line arguments via the same `command`
 input.
 
     - name: Send code coverage report
-      uses: alexkappa/codeclimate-test-reporter@v0.0.1
+      uses: aktions/codeclimate-test-reporter@v0
       with:
         ...
         command: after-build --coverage-input-type gocov
