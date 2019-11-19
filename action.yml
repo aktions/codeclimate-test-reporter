@@ -1,6 +1,6 @@
 name: Code Climate Test Reporter
 description: Send test coverage results to code climate
-author: alexkappa
+author: aktions
 branding:
   icon: code
   color: green
