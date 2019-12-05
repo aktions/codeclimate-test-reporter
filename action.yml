@@ -11,25 +11,12 @@ inputs:
   codeclimate-test-reporter-version:
     description: The test reporter version. By default "latest" is used
     default: latest
-  codeclimate-test-reporter-os:
-    description: The test reporter OS
-    default: linux
-  codeclimate-test-reporter-arch:
-    description: The test reporter architecture
-    default: amd64
   codeclimate-test-reporter-url:
     description: The test reporter download URL. If supplied, it will override the version, os and architecture input
   command:
     description: The command to execute using the codeclimate test reporter
     default: after-build
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    CC_TEST_REPORTER_ID: ${{ inputs.codeclimate-test-reporter-id }}
-    CC_TEST_REPORTER_VERSION: ${{ inputs.codeclimate-test-reporter-version }}
-    CC_TEST_REPORTER_OS: ${{ inputs.codeclimate-test-reporter-os }}
-    CC_TEST_REPORTER_ARCH: ${{ inputs.codeclimate-test-reporter-arch }}
-    CC_TEST_REPORTER_URL: ${{ inputs.codeclimate-test-reporter-url }}
-  args:
-    - ${{ inputs.command }}
+  using: node12
+  main: dist/index.js
+

@@ -1,0 +1,22 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'releases/*'
+
+env:
+  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - run: npm ci
+    - run: npm test
+    - uses: ./
+        
