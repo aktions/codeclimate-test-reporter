@@ -1,0 +1,44 @@
+{
+  "name": "codeclimate-test-reporter",
+  "version": "1.0.0",
+  "description": "Send test coverage results to code climate",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint index.js",
+    "package": "ncc build index.js -o dist",
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": false,
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ]
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "CodeClimate"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aktions/codeclimate-test-reporter.git"
+  },
+  "author": "alexkappa <me@alexkappa.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aktions/codeclimate-test-reporter/issues"
+  },
+  "homepage": "https://github.com/aktions/codeclimate-test-reporter#readme",
+  "dependencies": {
+    "@actions/core": "^1.1.1",
+    "@actions/exec": "^1.0.1",
+    "@actions/io": "^1.0.1",
+    "@actions/tool-cache": "^1.1.2"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.20.5",
+    "eslint": "^6.3.0",
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2"
+  }
+}
