@@ -10,6 +10,8 @@
   },
   "jest": {
     "verbose": false,
+    "collectCoverage": true,
+    "coverageReporters": ["clover", "lcov"],
     "setupFilesAfterEnv": [
       "jest-extended"
     ]
