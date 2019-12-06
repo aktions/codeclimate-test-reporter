@@ -20,6 +20,6 @@ test('download, install and cache the reporter', async () => {
 });
 
 test('execute a command using the reporter', async () => {
-  const code = await codeclimate.command('env -f json');
+  const code = await codeclimate.command('env', '-f', 'json');
   expect(code).toBe(0);
 });

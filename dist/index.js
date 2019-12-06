@@ -942,14 +942,21 @@ const core = __webpack_require__(470);
 const codeclimate = __webpack_require__(466);
 
 async function run() {
-  try {
-    await codeclimate.download({
-      url: core.getInput('codeclimate-test-reporter-url'),
-      version: core.getInput('codeclimate-test-reporter-version') || 'latest'
-    });
-    await codeclimate.command(core.getInput('command').split(' '));
+  
+  const options = {
+    id: core.getInput('codeclimate-test-reporter-id'),
+    url: core.getInput('codeclimate-test-reporter-url'),
+    version: core.getInput('codeclimate-test-reporter-version') || 'latest'
+  };
+
+  if (options.id) {
+    core.exportVariable('CC_TEST_REPORTER_ID', options.id);
   }
-  catch (err) {
+
+  try {
+    await codeclimate.download(options);
+    await codeclimate.command(core.getInput('command').split(' '));
+  } catch (err) {
     core.setFailed(err.message);
   }
 }
@@ -2943,43 +2950,31 @@ function escape(s) {
 /***/ 466:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
-const exec = __webpack_require__(986);
 const core = __webpack_require__(470);
+const exec = __webpack_require__(986);
 const tc = __webpack_require__(533);
 const io = __webpack_require__(1);
 const os = __webpack_require__(87);
 const path = __webpack_require__(622);
 
-const binDir = path.join(__dirname, 'bin');
-const bin = 'cc-test-reporter';
+const tool = 'cc-test-reporter';
 
-async function download(options = {}) {
+module.exports.download = async function (options = {}) {
 
-  let toolPath = path.join(binDir, bin);
+  options.version = options.version || 'latest';
 
-  const cachedTool = tc.find(bin, options.version);
-  if (cachedTool) {
-    toolPath = cachedTool;
-  } else {
+  let toolPath = tc.find(tool, options.version);
+  if (!toolPath) {
     const url = getUrl(options);
-    const tmpPath = await tc.downloadTool(url);
-    core.debug(`downloaded to ${tmpPath}`)
-
-    await io.mkdirP(binDir);
-    await io.mv(tmpPath, toolPath);
+    const downloadPath = await tc.downloadTool(url);
+    toolPath = path.join(path.dirname(downloadPath), tool);
+    await io.mv(downloadPath, toolPath);
     await exec.exec(`chmod +x ${toolPath}`);
 
-    await tc.cacheDir(binDir, bin, options.version);
+    toolPath = await tc.cacheDir(path.dirname(toolPath), tool, options.version);
   }
 
-  try {
-    core.debug(`adding to PATH`);
-    core.addPath(binDir);
-  } catch (err) {
-    core.setFailed(err.message);
-  }
-
-  return toolPath;
+  core.addPath(toolPath);
 }
 
 function getUrl(options) {
@@ -2990,32 +2985,13 @@ function getUrl(options) {
   return url;
 }
 
-async function command(...args) {
-  
-  let toolPath = path.join(binDir, bin);
-
-  let stdout = '';
-  let stderr = '';
-  
-  try {
-    const options = {
-      listeners: {
-        stdout: (data) => { stdout += data.toString() },
-        stderr: (data) => { stderr += data.toString() }
-      }
-    };
-    await exec.exec(toolPath, args, options);
-  } catch (err) {
-    throw new Error(`${err}: ${stderr}`);
-  }
-
-  return stdout;
+module.exports.command = async function (args) {
+  return await exec.exec(`${tool} ${args}`, [], {env: process.env});
 }
 
-module.exports = {
-  download: download,
-  command: command
-};
+module.exports.find = function (version) {
+  return tc.find(tool, version);
+}
 
 /***/ }),
 
