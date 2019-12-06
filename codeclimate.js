@@ -1,42 +1,28 @@
-const exec = require('@actions/exec');
 const core = require('@actions/core');
+const exec = require('@actions/exec');
 const tc = require('@actions/tool-cache');
 const io = require('@actions/io');
 const os = require('os');
 const path = require('path');
 
-const binDir = path.join(__dirname, 'bin');
-const bin = 'cc-test-reporter';
+const tool = 'cc-test-reporter';
 
 module.exports.download = async function (options = {}) {
 
-  let binPath = path.join(binDir, bin);
-
   options.version = options.version || 'latest';
 
-  const cachedBin = tc.find(bin, options.version);
-  if (cachedBin) {
-    binPath = cachedBin;
-  } else {
+  let toolPath = tc.find(tool, options.version);
+  if (!toolPath) {
     const url = getUrl(options);
-    const tmpPath = await tc.downloadTool(url);
-    core.debug(`downloaded to ${tmpPath}`)
+    const downloadPath = await tc.downloadTool(url);
+    toolPath = path.join(path.dirname(downloadPath), tool);
+    await io.mv(downloadPath, toolPath);
+    await exec.exec(`chmod +x ${toolPath}`);
 
-    await io.mkdirP(binDir);
-    await io.mv(tmpPath, binPath);
-    await exec.exec(`chmod +x ${binPath}`);
-
-    await tc.cacheDir(binDir, bin, options.version);
+    toolPath = await tc.cacheDir(path.dirname(toolPath), tool, options.version);
   }
 
-  try {
-    core.debug(`adding to PATH`);
-    core.addPath(binDir);
-  } catch (err) {
-    core.setFailed(err.message);
-  }
-
-  return binPath;
+  core.addPath(toolPath);
 }
 
 function getUrl(options) {
@@ -48,22 +34,9 @@ function getUrl(options) {
 }
 
 module.exports.command = async function (...args) {
-
-  let stdout = '';
-  let stderr = '';
-
-  try {
-    const options = {
-      listeners: {
-        stdout: (data) => { stdout += data.toString() },
-        stderr: (data) => { stderr += data.toString() }
-      }
-    };
-    await exec.exec(bin, args, options);
-  } catch (err) {
-    throw new Error(`${err}: ${stderr}`);
-  }
-
-  return stdout;
+  return await exec.exec(tool, args, {env: process.env});
 }
 
+module.exports.find = function (version) {
+  return tc.find(tool, version);
+}
