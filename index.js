@@ -15,7 +15,7 @@ async function run() {
 
   try {
     await codeclimate.download(options);
-    await codeclimate.command(options, ...core.getInput('command').split(' '));
+    await codeclimate.command(options, core.getInput('command'));
   } catch (err) {
     core.setFailed(err.message);
   }

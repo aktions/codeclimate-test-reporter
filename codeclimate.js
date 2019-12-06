@@ -33,8 +33,8 @@ function getUrl(options) {
   return url;
 }
 
-module.exports.command = async function (...args) {
-  return await exec.exec(tool, args, {env: process.env});
+module.exports.command = async function (args) {
+  return await exec.exec(tool, args.split(' '), {env: process.env});
 }
 
 module.exports.find = function (version) {
