@@ -955,7 +955,7 @@ async function run() {
 
   try {
     await codeclimate.download(options);
-    await codeclimate.command(core.getInput('command').split(' '));
+    await codeclimate.command(...core.getInput('command').split(' '));
   } catch (err) {
     core.setFailed(err.message);
   }
@@ -2985,8 +2985,8 @@ function getUrl(options) {
   return url;
 }
 
-module.exports.command = async function (args) {
-  return await exec.exec(`${tool} ${args}`, [], {env: process.env});
+module.exports.command = async function (...args) {
+  return await exec.exec(tool, args, {env: process.env});
 }
 
 module.exports.find = function (version) {
