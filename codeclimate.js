@@ -8,21 +8,23 @@ const path = require('path');
 const binDir = path.join(__dirname, 'bin');
 const bin = 'cc-test-reporter';
 
-async function download(options = {}) {
+module.exports.download = async function (options = {}) {
 
-  let toolPath = path.join(binDir, bin);
+  let binPath = path.join(binDir, bin);
 
-  const cachedTool = tc.find(bin, options.version);
-  if (cachedTool) {
-    toolPath = cachedTool;
+  options.version = options.version || 'latest';
+
+  const cachedBin = tc.find(bin, options.version);
+  if (cachedBin) {
+    binPath = cachedBin;
   } else {
     const url = getUrl(options);
     const tmpPath = await tc.downloadTool(url);
     core.debug(`downloaded to ${tmpPath}`)
 
     await io.mkdirP(binDir);
-    await io.mv(tmpPath, toolPath);
-    await exec.exec(`chmod +x ${toolPath}`);
+    await io.mv(tmpPath, binPath);
+    await exec.exec(`chmod +x ${binPath}`);
 
     await tc.cacheDir(binDir, bin, options.version);
   }
@@ -34,7 +36,7 @@ async function download(options = {}) {
     core.setFailed(err.message);
   }
 
-  return toolPath;
+  return binPath;
 }
 
 function getUrl(options) {
@@ -45,13 +47,11 @@ function getUrl(options) {
   return url;
 }
 
-async function command(...args) {
-  
-  let toolPath = path.join(binDir, bin);
+module.exports.command = async function (...args) {
 
   let stdout = '';
   let stderr = '';
-  
+
   try {
     const options = {
       listeners: {
@@ -59,7 +59,7 @@ async function command(...args) {
         stderr: (data) => { stderr += data.toString() }
       }
     };
-    await exec.exec(toolPath, args, options);
+    await exec.exec(bin, args, options);
   } catch (err) {
     throw new Error(`${err}: ${stderr}`);
   }
@@ -67,7 +67,3 @@ async function command(...args) {
   return stdout;
 }
 
-module.exports = {
-  download: download,
-  command: command
-};

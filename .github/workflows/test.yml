@@ -6,9 +6,6 @@ on:
       - master
       - 'releases/*'
 
-env:
-  CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
 jobs:
   test:
     name: Test
@@ -19,4 +16,7 @@ jobs:
     - run: npm ci
     - run: npm test
     - uses: ./
+      with:
+        codeclimate-test-reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}
+        command: after-build -t lcov
         
