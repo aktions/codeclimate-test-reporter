@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - 'releases/*'
 
 jobs:
   test:
@@ -16,6 +15,7 @@ jobs:
     - run: npm ci
     - run: npm test
     - run: npm run package
+    
     - uses: ./
       with:
         codeclimate-test-reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}

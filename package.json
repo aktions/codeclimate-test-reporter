@@ -6,8 +6,11 @@
   "scripts": {
     "lint": "eslint index.js",
     "package": "ncc build index.js -o dist",
-    "test": "jest"
+    "test": "jest",
+    "git-precommit": "npm run package",
+    "git-add": "git add dist"
   },
+  "precommit": [ "git-precommit", "git-add" ],
   "jest": {
     "verbose": false,
     "collectCoverage": true,
@@ -45,6 +48,7 @@
     "@zeit/ncc": "^0.20.5",
     "eslint": "^6.3.0",
     "jest": "^24.9.0",
-    "jest-extended": "^0.11.2"
+    "jest-extended": "^0.11.2",
+    "pre-commit": "^1.2.2"
   }
 }
