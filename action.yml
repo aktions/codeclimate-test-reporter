@@ -6,15 +6,22 @@ branding:
   color: green
 inputs:
   codeclimate-test-reporter-id:
-    description: The test reporter ID. This is a write-only ID that can only post test reports
+    description: |
+      The test reporter ID. This is a write-only ID that can only post test 
+      reports.
     required: true
   codeclimate-test-reporter-version:
-    description: The test reporter version. By default "latest" is used
+    description: |
+      The test reporter version. By default "latest" is used. If not explicitly
+      set in semver format, caching will not work.
     default: latest
   codeclimate-test-reporter-url:
-    description: The test reporter download URL. If supplied, it will override the version, os and architecture input
+    description: |
+      Test reporter download URL. If supplied, it will override the version 
+      input.
   command:
-    description: The command to execute using the codeclimate test reporter
+    description: |
+      The command to execute using the codeclimate test reporter.
     default: after-build
 runs:
   using: node12

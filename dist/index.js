@@ -2978,11 +2978,10 @@ module.exports.download = async function (options = {}) {
 }
 
 function getUrl(options) {
-  let url = options.url;
-  if (!url) {
-    url = `https://codeclimate.com/downloads/test-reporter/test-reporter-${options.version}-${os.platform()}-amd64`;
+  if (options.url) {
+    return options.url;
   }
-  return url;
+  return `https://codeclimate.com/downloads/test-reporter/test-reporter-${options.version}-${os.platform()}-amd64`;
 }
 
 module.exports.command = async function (...args) {

@@ -15,8 +15,8 @@ afterAll(() => {
 const codeclimate = require('./codeclimate');
 
 test('download, install and cache the reporter', async () => {
-  await codeclimate.download({ version: 'latest' });
-  expect(codeclimate.find('latest')).toBeTruthy();
+  await codeclimate.download({ version: '0.6.3' });
+  expect(codeclimate.find('0.6.3')).toBeTruthy(); // latest won't hit the cache.
 });
 
 test('execute a command using the reporter', async () => {
