@@ -19,7 +19,7 @@ module.exports.download = async function (options = {}) {
     await io.mv(downloadPath, toolPath);
     await new Promise((resolve, reject) => {
       exec(`chmod +x ${toolPath}`, {}, (err) => {
-        err ? reject(1) : resolve(0);
+        err ? reject(err) : resolve(0);
       })
     });
 
@@ -39,7 +39,7 @@ function getUrl(options) {
 module.exports.command = async function (args) {
   return await new Promise((resolve, reject) => {
     exec(`${tool} ${args}`, { env: process.env }, (err) => {
-      err ? reject(1) : resolve(0);
+      err ? reject(err) : resolve(0);
     })
   });
 }

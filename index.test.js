@@ -28,8 +28,8 @@ test('successful command execution', async () => {
 test('failing command execution', async () => {
   try {
     await codeclimate.command('whatever');
-  } catch (code) {
-    expect(code).toBe(1);
+  } catch (err) {
+    expect(err.message).toStartWith('Command failed: cc-test-reporter whatever');
   }
 });
 
