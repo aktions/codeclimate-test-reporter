@@ -1,9 +1,9 @@
 const core = require('@actions/core');
-const exec = require('@actions/exec');
 const tc = require('@actions/tool-cache');
 const io = require('@actions/io');
 const os = require('os');
 const path = require('path');
+const { exec } = require('child_process');
 
 const tool = 'cc-test-reporter';
 
@@ -17,7 +17,11 @@ module.exports.download = async function (options = {}) {
     const downloadPath = await tc.downloadTool(url);
     toolPath = path.join(path.dirname(downloadPath), tool);
     await io.mv(downloadPath, toolPath);
-    await exec.exec(`chmod +x ${toolPath}`);
+    await new Promise((resolve, reject) => {
+      exec(`chmod +x ${toolPath}`, {}, (err) => {
+        err ? reject(err) : resolve(0);
+      })
+    });
 
     toolPath = await tc.cacheDir(path.dirname(toolPath), tool, options.version);
   }
@@ -32,8 +36,12 @@ function getUrl(options) {
   return `https://codeclimate.com/downloads/test-reporter/test-reporter-${options.version}-${os.platform()}-amd64`;
 }
 
-module.exports.command = async function (...args) {
-  return await exec.exec(tool, args, {env: process.env});
+module.exports.command = async function (args) {
+  return await new Promise((resolve, reject) => {
+    exec(`${tool} ${args}`, { env: process.env }, (err) => {
+      err ? reject(err) : resolve(0);
+    })
+  });
 }
 
 module.exports.find = function (version) {

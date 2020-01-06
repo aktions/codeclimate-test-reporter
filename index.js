@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const codeclimate = require('./codeclimate');
 
 async function run() {
-  
+
   const options = {
     id: core.getInput('codeclimate-test-reporter-id'),
     url: core.getInput('codeclimate-test-reporter-url'),
@@ -15,7 +15,7 @@ async function run() {
 
   try {
     await codeclimate.download(options);
-    await codeclimate.command(...core.getInput('command').split(' '));
+    await codeclimate.command(core.getInput('command'));
   } catch (err) {
     core.setFailed(err.message);
   }

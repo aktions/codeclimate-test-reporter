@@ -942,7 +942,7 @@ const core = __webpack_require__(470);
 const codeclimate = __webpack_require__(466);
 
 async function run() {
-  
+
   const options = {
     id: core.getInput('codeclimate-test-reporter-id'),
     url: core.getInput('codeclimate-test-reporter-url'),
@@ -955,13 +955,14 @@ async function run() {
 
   try {
     await codeclimate.download(options);
-    await codeclimate.command(...core.getInput('command').split(' '));
+    await codeclimate.command(core.getInput('command'));
   } catch (err) {
     core.setFailed(err.message);
   }
 }
 
 run()
+
 
 /***/ }),
 
@@ -2951,11 +2952,11 @@ function escape(s) {
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
-const exec = __webpack_require__(986);
 const tc = __webpack_require__(533);
 const io = __webpack_require__(1);
 const os = __webpack_require__(87);
 const path = __webpack_require__(622);
+const { exec } = __webpack_require__(129);
 
 const tool = 'cc-test-reporter';
 
@@ -2969,7 +2970,11 @@ module.exports.download = async function (options = {}) {
     const downloadPath = await tc.downloadTool(url);
     toolPath = path.join(path.dirname(downloadPath), tool);
     await io.mv(downloadPath, toolPath);
-    await exec.exec(`chmod +x ${toolPath}`);
+    await new Promise((resolve, reject) => {
+      exec(`chmod +x ${toolPath}`, {}, (err) => {
+        err ? reject(err) : resolve(0);
+      })
+    });
 
     toolPath = await tc.cacheDir(path.dirname(toolPath), tool, options.version);
   }
@@ -2984,13 +2989,18 @@ function getUrl(options) {
   return `https://codeclimate.com/downloads/test-reporter/test-reporter-${options.version}-${os.platform()}-amd64`;
 }
 
-module.exports.command = async function (...args) {
-  return await exec.exec(tool, args, {env: process.env});
+module.exports.command = async function (args) {
+  return await new Promise((resolve, reject) => {
+    exec(`${tool} ${args}`, { env: process.env }, (err) => {
+      err ? reject(err) : resolve(0);
+    })
+  });
 }
 
 module.exports.find = function (version) {
   return tc.find(tool, version);
 }
+
 
 /***/ }),
 
