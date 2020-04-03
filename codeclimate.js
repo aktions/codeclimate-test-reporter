@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const io = require('@actions/io');
+const context = require('@actions/github');
 const os = require('os');
 const path = require('path');
 const { exec } = require('child_process');
@@ -57,7 +58,7 @@ function getEnv() {
 
   if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
     env.GIT_BRANCH = process.env.GITHUB_HEAD_REF || env.GIT_BRANCH;
-    env.GIT_COMMIT_SHA = context.payload.pull_request?.['head']?.['sha'];
+    env.GIT_COMMIT_SHA = context.payload.pull_request['head']['sha'];
   }
   return env;
 }

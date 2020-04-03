@@ -10,7 +10,10 @@
     "git-precommit": "npm run package",
     "git-add": "git add dist"
   },
-  "precommit": [ "git-precommit", "git-add" ],
+  "precommit": [
+    "git-precommit",
+    "git-add"
+  ],
   "jest": {
     "verbose": false,
     "collectCoverage": true,
@@ -40,6 +43,7 @@
   "dependencies": {
     "@actions/core": "^1.2.0",
     "@actions/exec": "^1.0.1",
+    "@actions/github": "^1.1.0",
     "@actions/io": "^1.0.1",
     "@actions/tool-cache": "^1.1.2"
   },
