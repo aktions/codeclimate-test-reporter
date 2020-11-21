@@ -41,18 +41,18 @@
   },
   "homepage": "https://github.com/aktions/codeclimate-test-reporter#readme",
   "dependencies": {
-    "@actions/core": "^1.2.0",
-    "@actions/exec": "^1.0.1",
+    "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4",
     "@actions/github": "^1.1.0",
-    "@actions/io": "^1.0.1",
-    "@actions/tool-cache": "^1.1.2"
+    "@actions/io": "^1.0.2",
+    "@actions/tool-cache": "^1.6.1"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^24.9.1",
     "@zeit/ncc": "^0.20.5",
-    "eslint": "^6.3.0",
+    "eslint": "^6.8.0",
     "jest": "^24.9.0",
-    "jest-extended": "^0.11.2",
+    "jest-extended": "^0.11.5",
     "pre-commit": "^1.2.2"
   }
 }
