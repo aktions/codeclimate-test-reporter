@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const tc = require('@actions/tool-cache');
 const io = require('@actions/io');
-const context = require('@actions/github');
+const { context } = require('@actions/github');
 const os = require('os');
 const path = require('path');
 const { exec } = require('child_process');
