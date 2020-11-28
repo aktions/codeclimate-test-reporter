@@ -14,14 +14,17 @@ inputs:
     description: |
       The test reporter version. By default "latest" is used. If not explicitly
       set in semver format, caching will not work.
+    required: false
     default: latest
   codeclimate-test-reporter-url:
     description: |
       Test reporter download URL. If supplied, it will override the version 
       input.
+    required: false
   command:
     description: |
       The command to execute using the codeclimate test reporter.
+    required: false
     default: after-build
 runs:
   using: node12
