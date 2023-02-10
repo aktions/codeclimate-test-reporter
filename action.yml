@@ -27,6 +27,6 @@ inputs:
     required: false
     default: after-build
 runs:
-  using: node12
+  using: node16
   main: dist/index.js
 

@@ -1,6 +1,6 @@
 {
   "name": "codeclimate-test-reporter",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Send test coverage results to code climate",
   "main": "index.js",
   "scripts": {
@@ -32,14 +32,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aktions/codeclimate-test-reporter.git"
+    "url": "git+https://github.com/BadOPCode/codeclimate-test-reporter.git"
   },
-  "author": "alexkappa <me@alexkappa.com>",
+  "author": "Shawn Rapp (BadOPCode)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aktions/codeclimate-test-reporter/issues"
+    "url": "https://github.com/BadOPCode/codeclimate-test-reporter/issues"
   },
-  "homepage": "https://github.com/aktions/codeclimate-test-reporter#readme",
+  "homepage": "https://github.com/BadOPCode/codeclimate-test-reporter#readme",
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/exec": "^1.0.1",
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
-    "@zeit/ncc": "^0.20.5",
+    "@vercel/ncc": "^0.36.1",
     "eslint": "^6.3.0",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
