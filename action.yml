@@ -1,4 +1,4 @@
-name: Code Climate Test Reporter
+name: Code Climate Test Reporter (BadOPCode flavored)
 description: Send test coverage results to code climate
 author: aktions
 branding:
