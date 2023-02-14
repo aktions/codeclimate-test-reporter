@@ -1,9 +1,8 @@
-const core = require('@actions/core');
-const codeclimate = require('./codeclimate');
+import core from '@actions/core';
+import codeclimate, { Options } from './codeclimate';
 
 async function run() {
-
-  const options = {
+  const options: Options = {
     id: core.getInput('codeclimate-test-reporter-id'),
     url: core.getInput('codeclimate-test-reporter-url'),
     version: core.getInput('codeclimate-test-reporter-version') || 'latest'
@@ -17,7 +16,8 @@ async function run() {
     await codeclimate.download(options);
     await codeclimate.command(core.getInput('command'));
   } catch (err) {
-    core.setFailed(err.message);
+    if (err instanceof Error)
+      core.setFailed(err.message);
   }
 }
 

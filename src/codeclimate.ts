@@ -1,14 +1,21 @@
-const core = require('@actions/core');
-const tc = require('@actions/tool-cache');
-const io = require('@actions/io');
-const context = require('@actions/github');
-const os = require('os');
-const path = require('path');
-const { exec } = require('child_process');
+import  * as core  from  '@actions/core';
+import  * as tc  from  '@actions/tool-cache';
+import  * as io  from  '@actions/io';
+import  * as github  from  '@actions/github';
+import  * as githubDefs from '@octokit/webhooks-definitions/schema';
+import  * as os  from  'os';
+import  * as path  from  'path';
+import  { exec }  from  'child_process';
 
 const tool = 'cc-test-reporter';
 
-module.exports.download = async function (options = {}) {
+export interface Options {
+  id?: string;
+  version?: string;
+  url?: string;
+}
+
+const download = async function (options:Options = {}) {
 
   options.version = options.version || 'latest';
 
@@ -30,7 +37,7 @@ module.exports.download = async function (options = {}) {
   core.addPath(toolPath);
 };
 
-function getUrl(options) {
+function getUrl(options: Options) {
   if (options.url) {
     return options.url;
   }
@@ -58,12 +65,12 @@ function getEnv() {
 
   if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
     env.GIT_BRANCH = process.env.GITHUB_HEAD_REF || env.GIT_BRANCH;
-    env.GIT_COMMIT_SHA = context.payload.pull_request['head']['sha'];
+    env.GIT_COMMIT_SHA = (github.context.payload as githubDefs.PullRequestEvent).pull_request['head']['sha'];
   }
   return env;
 }
 
-module.exports.command = async function (args) {
+const command = async function (args:any) {
   return await new Promise((resolve, reject) => {
     exec(`${tool} ${args}`, { env: getEnv() }, (err) => {
       err ? reject(err) : resolve(0);
@@ -71,6 +78,12 @@ module.exports.command = async function (args) {
   });
 };
 
-module.exports.find = function (version) {
+const find = function (version: string) {
   return tc.find(tool, version);
 };
+
+export default {
+  download,
+  command,
+  find,
+}

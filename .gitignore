@@ -60,3 +60,5 @@ bin/**/cc-test-reporter
 # dotenv environment variables file
 .env
 .env.test
+
+build/
