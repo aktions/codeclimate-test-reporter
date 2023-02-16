@@ -1,4 +1,4 @@
-import core from '@actions/core';
+import * as core from '@actions/core';
 import codeclimate, { Options } from './codeclimate';
 
 async function run() {

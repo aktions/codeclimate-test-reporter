@@ -126,6 +126,29 @@ exports["default"] = {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -139,25 +162,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __importDefault(__nccwpck_require__(2186));
+const core = __importStar(__nccwpck_require__(2186));
 const codeclimate_1 = __importDefault(__nccwpck_require__(8589));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const options = {
-            id: core_1.default.getInput('codeclimate-test-reporter-id'),
-            url: core_1.default.getInput('codeclimate-test-reporter-url'),
-            version: core_1.default.getInput('codeclimate-test-reporter-version') || 'latest'
+            id: core.getInput('codeclimate-test-reporter-id'),
+            url: core.getInput('codeclimate-test-reporter-url'),
+            version: core.getInput('codeclimate-test-reporter-version') || 'latest'
         };
         if (options.id) {
-            core_1.default.exportVariable('CC_TEST_REPORTER_ID', options.id);
+            core.exportVariable('CC_TEST_REPORTER_ID', options.id);
         }
         try {
             yield codeclimate_1.default.download(options);
-            yield codeclimate_1.default.command(core_1.default.getInput('command'));
+            yield codeclimate_1.default.command(core.getInput('command'));
         }
         catch (err) {
             if (err instanceof Error)
-                core_1.default.setFailed(err.message);
+                core.setFailed(err.message);
         }
     });
 }
