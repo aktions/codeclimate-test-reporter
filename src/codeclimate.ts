@@ -53,7 +53,9 @@ function getUrl(options: Options) {
  * https://github.com/paambaati/codeclimate-action/blob/master/src/main.ts#L42-L59
  */
 function getEnv() {
-  const env = process.env;
+  // clone object otherwise this whole function is pointlessly modifying the original
+  // due to it being a reference.
+  const env = {...process.env};
   if (process.env.GITHUB_SHA !== undefined) {
     env.GIT_COMMIT_SHA = process.env.GITHUB_SHA;
   }
@@ -86,4 +88,6 @@ export default {
   download,
   command,
   find,
+  getUrl,
+  getEnv,
 }

@@ -62,3 +62,4 @@ bin/**/cc-test-reporter
 .env.test
 
 build/
+.nyc_output
