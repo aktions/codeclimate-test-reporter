@@ -13,11 +13,10 @@ jobs:
     - uses: actions/checkout@v1
 
     - run: npm ci
-    - run: npm test
+    - run: npm test:coverage
     - run: npm run package
     
     - uses: ./
       with:
         codeclimate-test-reporter-id: ${{ secrets.CC_TEST_REPORTER_ID }}
         command: after-build -t lcov
-        
