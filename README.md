@@ -1,5 +1,10 @@
 # Code Climate Test Reporter Action
 
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/bf8b5212f7473b28e230/maintainability)](https://codeclimate.com/github/BadOPCode/codeclimate-test-reporter/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/bf8b5212f7473b28e230/test_coverage)](https://codeclimate.com/github/BadOPCode/codeclimate-test-reporter/test_coverage)
+
+
 Action for sending reports to Code Climate.
 Originated from https://github.com/aktions/codeclimate-test-reporter
 I made a fork of this project as it had grown quiet for a while and this is my favorite implementation of the Code Climate action.
